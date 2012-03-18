@@ -1,9 +1,5 @@
-package org.krams.controller;
+package com.life.controller;
 
-import org.krams.domain.Role;
-import org.krams.domain.User;
-import org.krams.dto.UserListDto;
-import org.krams.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.life.domain.Role;
+import com.life.domain.User;
+import com.life.dto.UserListDto;
+import com.life.service.UserService;
 
 @Controller
 @RequestMapping("/users")

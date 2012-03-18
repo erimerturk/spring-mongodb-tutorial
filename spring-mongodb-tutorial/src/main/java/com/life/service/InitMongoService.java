@@ -1,10 +1,11 @@
-package org.krams.service;
+package com.life.service;
 
 import java.util.UUID;
-import org.krams.domain.Role;
-import org.krams.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+
+import com.life.domain.Role;
+import com.life.domain.User;
 
 /**
  * Service for initializing MongoDB with sample data using {@link MongoTemplate}

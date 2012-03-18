@@ -1,7 +1,8 @@
-package org.krams.repository;
+package com.life.repository;
 
-import org.krams.domain.Role;
 import org.springframework.data.mongodb.repository.MongoRepository;
+
+import com.life.domain.Role;
 
 public interface RoleRepository extends MongoRepository<Role, String> {
 }

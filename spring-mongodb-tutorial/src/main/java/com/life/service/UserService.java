@@ -1,13 +1,14 @@
-package org.krams.service;
+package com.life.service;
 
 import java.util.List;
 import java.util.UUID;
 
-import org.krams.domain.User;
-import org.krams.repository.RoleRepository;
-import org.krams.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.life.domain.User;
+import com.life.repository.RoleRepository;
+import com.life.repository.UserRepository;
 
 @Service
 public class UserService {

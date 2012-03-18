@@ -1,7 +1,8 @@
-package org.krams.repository;
+package com.life.repository;
 
-import org.krams.domain.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
+
+import com.life.domain.User;
 
 public interface UserRepository extends MongoRepository<User, String> {
 	

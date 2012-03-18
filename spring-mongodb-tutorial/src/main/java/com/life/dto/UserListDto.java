@@ -1,8 +1,9 @@
-package org.krams.dto;
+package com.life.dto;
 
 import java.util.List;
 
-import org.krams.domain.User;
+import com.life.domain.User;
+
 
 public class UserListDto {
 
