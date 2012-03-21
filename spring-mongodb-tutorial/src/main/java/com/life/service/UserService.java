@@ -1,7 +1,6 @@
 package com.life.service;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +10,7 @@ import com.life.repository.RoleRepository;
 import com.life.repository.UserRepository;
 
 @Service
-public class UserService {
+public class UserService{
 
 	@Autowired
 	private UserRepository userRepository;
@@ -20,9 +19,6 @@ public class UserService {
 	private RoleRepository roleRepository;
 	
 	public User create(User user) {
-		user.setId(UUID.randomUUID().toString());
-		user.getRole().setId(UUID.randomUUID().toString());
-		
 		// We must save both separately since there is no cascading feature
 		// in Spring Data MongoDB (for now)
 		roleRepository.save(user.getRole());
