@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.life.domain.User;
+import com.life.repository.PlanRepository;
 import com.life.repository.RoleRepository;
 import com.life.repository.UserRepository;
 
@@ -18,10 +19,14 @@ public class UserService{
 	@Autowired
 	private RoleRepository roleRepository;
 	
+	@Autowired
+    private PlanRepository planRepository;
+	
 	public User create(User user) {
 		// We must save both separately since there is no cascading feature
 		// in Spring Data MongoDB (for now)
 		roleRepository.save(user.getRole());
+		planRepository.save(user.getPlans());
 		return userRepository.save(user);
 	}
 	

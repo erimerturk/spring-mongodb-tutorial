@@ -1,13 +1,20 @@
 package com.life.domain;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlRootElement;
+
+import lombok.Data;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.google.common.collect.Lists;
+
 @Document
 @XmlRootElement
+@Data
 public class User {
 	
 	@Id
@@ -22,51 +29,19 @@ public class User {
 	@DBRef
 	private Role role;
 
-	public String getId() {
-		return id;
-	}
+	@DBRef
+    private List<User> friends = Lists.newArrayList();
 
-	public void setId(String id) {
-		this.id = id;
-	}
+	@DBRef
+    private List<Plan> plans = Lists.newArrayList();
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public void addFriend(User friend)
+    {
+        this.friends.add(friend);
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
+    public void addPlan(Plan plan)
+    {
+        this.plans.add(plan);
+    }
 }

@@ -20,12 +20,9 @@ public class UserController {
 	@Autowired
 	private UserService service;
 	
-	@RequestMapping
-	public String getUsersPage() {
-		return "users";
-	}
-	
-	@RequestMapping(value="/records")
+	@RequestMapping(value="/records", 
+	        method = RequestMethod.GET,
+	        headers="Accept=application/xml, application/json")
 	public @ResponseBody UserListDto getUsers() {
 		
 		UserListDto userListDto = new UserListDto();
@@ -33,7 +30,7 @@ public class UserController {
 		return userListDto;
 	}
 	
-	@RequestMapping(value="/get")
+	@RequestMapping(value="/get", method = RequestMethod.POST)
 	public @ResponseBody User get(@RequestBody User user) {
 		return service.read(user);
 	}

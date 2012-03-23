@@ -11,6 +11,8 @@
 
 	<!-- For parsing classes with @Aspect annotation -->
 	<aop:aspectj-autoproxy/>
+	
+	<bean id="logAspect" class="com.life.aop.LoggingAspect" />
 
 	<bean id="customizableTraceInterceptor" class="com.life.aop.TraceInterceptor"
 		p:enterMessage="Entering $[targetClassShortName].$[methodName]($[arguments])"
