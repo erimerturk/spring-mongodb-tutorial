@@ -31,7 +31,7 @@ public class UserService{
 	}
 	
 	public User read(User user) {
-		return user;
+		return userRepository.findByUsername(user.getUsername());
 	}
 	
 	public List<User> readAll() {
@@ -48,10 +48,12 @@ public class UserService{
 		existingUser.setFirstName(user.getFirstName());
 		existingUser.setLastName(user.getLastName());
 		existingUser.getRole().setRole(user.getRole().getRole());
+		existingUser.setPlans(user.getPlans());
 		
 		// We must save both separately since there is no cascading feature
 		// in Spring Data MongoDB (for now)
 		roleRepository.save(existingUser.getRole());
+		planRepository.save(user.getPlans());
 		return userRepository.save(existingUser);
 	}
 	

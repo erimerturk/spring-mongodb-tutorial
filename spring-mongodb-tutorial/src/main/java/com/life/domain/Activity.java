@@ -11,11 +11,12 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.google.common.collect.Lists;
+import com.life.domain.feedable.Feedable;
 
 @Document
 @XmlRootElement
 @Data
-public class Activity
+public class Activity implements Feedable
 {
     @Id
     private String id;
@@ -44,6 +45,14 @@ public class Activity
     public void addFeed(Feed feed)
     {
         feeds.add(feed);
+    }
+    
+    @Override
+    public Feed feedOlustur()
+    {
+        Feed feed = new Feed();
+        feed.setName("feed oldu");
+        return feed;
     }
 
 }

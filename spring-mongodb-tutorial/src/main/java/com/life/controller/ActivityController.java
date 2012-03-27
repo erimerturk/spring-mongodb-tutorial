@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.life.domain.Activity;
+import com.life.domain.Plan;
 import com.life.service.ActivityService;
+import com.life.service.PlanService;
 
 @Controller
 @RequestMapping("/activity")
@@ -20,12 +23,13 @@ public class ActivityController
 
     @Autowired
     private ActivityService service;
+    
+    @Autowired
+    private PlanService planService;
 
     @RequestMapping(value = "/activities", headers="Accept=application/xml, application/json")
-    public @ResponseBody
-    List<Activity> getActvities()
+    public @ResponseBody List<Activity> getActvities()
     {
-        System.out.println("burda");
         return service.readAll();
     }
 
@@ -35,10 +39,14 @@ public class ActivityController
         return service.read(activity);
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST, headers="Accept=application/xml, application/json")
-    public @ResponseBody Activity create(@RequestBody Activity activity)
+    @RequestMapping(value = "/create/{planID}", method = RequestMethod.POST, headers="Accept=application/xml, application/json")
+    public @ResponseBody List<Activity> create(@RequestBody Activity activity, @PathVariable(value="planID") String planID)
     {
-        return service.create(activity);
+        Plan p = new Plan();
+        p.setId(planID);
+        Plan exis = planService.read(p);
+        exis.addActivity(activity);
+        return planService.update(exis).getActivities();
     }
 
     public @ResponseBody
