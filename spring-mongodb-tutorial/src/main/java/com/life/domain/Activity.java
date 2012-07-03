@@ -24,6 +24,9 @@ public class Activity implements Feedable
     private int duration;
     
     @DBRef
+    private User user;
+    
+    @DBRef
     private List<Preparation> preparations = Lists.newArrayList();
     
     @DBRef

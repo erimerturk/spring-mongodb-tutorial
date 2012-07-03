@@ -72,8 +72,8 @@ public class UserServiceTest extends UnitilsJUnit4
         user2.setUsername("user2");
         user2.setRole(role);
         
-        user1.addFriend(user2);
-        user2.addFriend(user1);
+//        user1.addFriend(user2);
+//        user2.addFriend(user1);
         
         expect(this.roleRepository.save(role)).andReturn(role).once();
         expect(this.userRepository.save(user1)).andReturn(user1).once();

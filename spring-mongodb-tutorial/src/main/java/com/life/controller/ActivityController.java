@@ -8,13 +8,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.common.base.Preconditions;
 import com.life.domain.Activity;
 import com.life.domain.Plan;
+import com.life.domain.User;
 import com.life.service.ActivityService;
 import com.life.service.PlanService;
+import com.life.service.auth.impl.AuthServiceImpl;
 
 @Controller
 @RequestMapping("/activity")
@@ -22,47 +24,33 @@ public class ActivityController
 {
 
     @Autowired
-    private ActivityService service;
-    
-    @Autowired
     private PlanService planService;
 
-    @RequestMapping(value = "/activities", headers="Accept=application/xml, application/json")
-    public @ResponseBody List<Activity> getActvities()
-    {
-        return service.readAll();
-    }
+    @Autowired
+    private AuthServiceImpl authService;
+    
+    @Autowired
+    private ActivityService activityService;
 
-    @RequestMapping(value = "/get")
-    public @ResponseBody Activity get(@RequestBody Activity activity)
-    {
-        return service.read(activity);
-    }
-
-    @RequestMapping(value = "/create/{planID}", method = RequestMethod.POST, headers="Accept=application/xml, application/json")
-    public @ResponseBody List<Activity> create(@RequestBody Activity activity, @PathVariable(value="planID") String planID)
-    {
-        Plan p = new Plan();
-        p.setId(planID);
-        Plan exis = planService.read(p);
-        exis.addActivity(activity);
-        return planService.update(exis).getActivities();
-    }
-
+    @RequestMapping(value = "/activities/{autId}/{planId}", headers = "Accept=application/xml, application/json")
     public @ResponseBody
-    Activity update(@RequestBody Activity activity)
+    List<Activity> getActivities(@PathVariable(value = "autId") String autId, @PathVariable(value = "planId") String planId)
     {
-        return service.update(activity);
+        Preconditions.checkNotNull(autId, "Invaild auth id");
+        User user = authService.getUser(autId);
+        Preconditions.checkNotNull(user, "Invaid auth id. User couldnt find");
+        Plan plan = planService.getPlan(planId);
+        return plan.getActivities();
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/create/{autId}/{planId}", method = RequestMethod.POST, headers = "Accept=application/xml, application/json")
     public @ResponseBody
-    Boolean delete(@RequestParam String activityName)
+    List<Activity> create(@RequestBody Activity activity, @PathVariable(value = "autId") String autId, @PathVariable(value = "planId") String planId)
     {
-
-        Activity existingActivity = new Activity();
-        existingActivity.setName(activityName);
-
-        return service.delete(existingActivity);
-    }
-}
+        Preconditions.checkNotNull(autId, "Invaild auth id");
+        User user = authService.getUser(autId);
+        Preconditions.checkNotNull(user, "Invaid auth id. User couldnt find");
+        Plan plan = planService.getPlan(planId);
+        activityService.createActivity(plan, activity);
+        return plan.getActivities();
+    }}

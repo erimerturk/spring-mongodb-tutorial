@@ -1,22 +1,19 @@
 package com.life.domain;
 
+import lombok.Data;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
+@Data
 public class Role {
 	
-	@Id
-	private String id;
+    @Id
+    private String id;
 	
 	private Integer role;
 	
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
 	public Integer getRole() {
 		return role;
 	}

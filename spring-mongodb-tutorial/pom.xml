@@ -49,6 +49,14 @@
   
   <dependencies>
   
+  <dependency>
+	<groupId>org.fluttercode.datafactory</groupId>
+	<artifactId>datafactory</artifactId>
+	<version>0.8</version>
+	<type>jar</type>
+</dependency>
+  
+  
        <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>

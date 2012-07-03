@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.common.base.Preconditions;
 import com.life.domain.Plan;
 import com.life.domain.User;
 import com.life.service.PlanService;
 import com.life.service.UserService;
+import com.life.service.auth.impl.AuthServiceImpl;
 
 @Controller
 @RequestMapping("/plan")
@@ -21,26 +23,31 @@ public class PlanController
 {
 
     @Autowired
-    private UserService userService;
-    
-    @Autowired
     private PlanService planService;
 
-    @RequestMapping(value = "/plans", headers="Accept=application/xml, application/json")
-    public @ResponseBody List<Plan> getPlans()
+    @Autowired
+    private AuthServiceImpl authService;
+    
+    @Autowired
+    private UserService userService;
+
+    @RequestMapping(value = "/plans/{autId}", headers = "Accept=application/xml, application/json")
+    public @ResponseBody
+    List<Plan> getPlans(@PathVariable(value = "autId") String autId)
     {
-        return planService.readAll();
+        Preconditions.checkNotNull(autId, "Invaild auth id");
+        User user = authService.getUser(autId);
+        return user.getPlans();
     }
 
-    @RequestMapping(value = "/create/{userID}", method = RequestMethod.POST, headers="Accept=application/xml, application/json")
-    public @ResponseBody List<Plan> create(@RequestBody Plan plan, @PathVariable(value="userID") String userID)
+    @RequestMapping(value = "/create/{autId}", method = RequestMethod.POST, headers = "Accept=application/xml, application/json")
+    public @ResponseBody
+    List<Plan> create(@RequestBody Plan plan, @PathVariable(value = "autId") String autId)
     {
-        User user = new User();
-        user.setUsername(userID);
-        User exis = userService.read(user);
-        plan.setUserName(exis.getUsername());
-        exis.addPlan(plan);
-        return userService.update(exis).getPlans();
+        Preconditions.checkNotNull(autId, "Invaild auth id");
+        User user = authService.getUser(autId);
+        Plan newPlan = planService.create(user, plan);
+        return userService.findUserById(newPlan.getUserId()).getPlans();
     }
 
 }

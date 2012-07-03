@@ -7,4 +7,5 @@ import com.life.domain.Plan;
 public interface PlanRepository extends MongoRepository<Plan, String>
 {
     public Plan findById(String id);
+    public Plan findByUniqId(String uniqId);
 }
